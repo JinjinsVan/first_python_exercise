@@ -1,8 +1,8 @@
 {% extends 'layout.html' %}
 {% block body %}
-<h2>登录</h2>
+<h2>注册</h2>
 {% if error %}<p class="error"><strong>Error:</strong>{{ error }}</p>{% endif %}
-<form action="{{ url_for('login') }}" method="post">
+<form action="{{ url_for('register') }}" method="post">
 	<div>
 		<label for="name">Username:</label>
 		<input type="text" id="name" name="username">
@@ -12,7 +12,7 @@
 		<input type="password" id="pasword" name="password">
 	</div>
 	<div class="button">
-  		<button type="submit">Sign In</button>
+  		<button type="submit">Sign Up</button>
 	</div>
 </form>
 {% endblock %}

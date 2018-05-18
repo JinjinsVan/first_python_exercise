@@ -4,6 +4,9 @@ abort,render_template,flash
 from contextlib import closing
 from datetime import datetime
 
+import utils
+
+
 PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 DATABASE = os.path.join(PROJECT_ROOT,'tmp','todo.db')
 DEBUG = True
@@ -38,10 +41,38 @@ def register():
 		cursor = g.db.execute('select count(*) from user where username = ?',[username])
 		if cursor.rowcount() != 0:
 			error = 'This name has been used,  please change another one :)'
+			return render_template('register.html',error=error)
 		else:
-			g.db.execute('insert into user (username,password) values (?,?)',[username,encrypt_psw(request.form['password'])])
+			g.db.execute('insert into user (username,password) values (?,?)',[username,utils.encrypt_password(request.form['password'],None)])
 	        g.db.commit()
-	return render_template('show_entries.html')	
+	        return redirect(url_for('show_list'))
+
+@app.route('/login',methods=['POST'])
+def login():
+	error = None
+	if request.method == 'POST':
+		username = request.form['username']
+		password = request.form['password']
+		cursor = g.db.execute('select * from user where username = ?',[username])
+		if cursor.hasNext():
+			pass:
+			pass
+
+
+@app.route('/add',methods=['POST'])
+def add_entry():
+	if not session.get('logged_in'):
+		abort(401)
+	else:
+		g.db.execute('insert into todolist (title,date,status,user_id) values (?,?,?,?)',[request['title'],str(datetime.now()),'0',session.get('user_id')])
+		g.db.commit()
+		flash('Succesfully posted')
+		return redirect(url_for('show_list'))
+
+
+
+
+	
 
 
 

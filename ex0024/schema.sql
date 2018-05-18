@@ -6,7 +6,7 @@ create table user (
   password string not null
 );
 
-create table tolist (
+create table todolist (
   id integer primary key autoincrement,
   title string not null,
   date string not null,
