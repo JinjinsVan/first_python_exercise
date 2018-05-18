@@ -1,0 +1,11 @@
+<!doctype html>
+<title>留言簿</title>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style.css')}}">
+<div class=page>
+	<h1>留言簿</h1>
+	<h3>请尽情留言吧...</h3>
+	{% for message in get_flashed_messages() %}
+		<div class=flash>{{ message }}</div>
+	{% endfor %}
+	{% block body %}{% endblock %}
+</div>
