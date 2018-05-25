@@ -16,8 +16,17 @@ class ex0024TestCase(unittest.TestCase):
 		os.unlink(ex0024.app.config['DATABASE'])	
 
 	def test_register(self):
-		rv = self.app.post('/register',data=dict(username='test',password='psw'),follow_redirects=True)
-		print(rv)
+		self.app.post('/register',data=dict(username='test',password='psw'),follow_redirects=True)
+		# rv = self.app.post('/register',data=dict(username='test',password='psw'),follow_redirects=True)
+		rv = self.app.post('/login',data=dict(username='test',password='psw'),follow_redirects=True)
+		rv = self.app.post('/add',data=dict(title="go supermarket",follow_redirects=True))
+		print(rv.data.decode())
+
+
+
+	# def test_login(self):
+	# 	rv = self.app.post('/login',data=dict(username='test',password='psw'),follow_redirects=True)
+	# 	print(rv)
 
 if __name__ == '__main__':
 	unittest.main()

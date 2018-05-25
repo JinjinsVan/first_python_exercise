@@ -1,21 +1,54 @@
 {% extends "layout.html" %}
 {% block body %}
-	<form action="{{ url_for('add_entry') }}" method=post class=add-entry>
-		<dl>
-			<dt>姓名
-			<dd><input type=text name=username size=30>
-			<dt>内容
-			<dd><textarea name=text rows=5 cols=40></textarea>
-			<dd><input type=submit value='提交'>
-		</dl>
-	</form>
-	<h2>历史留言信息</h2>
-	<ul class=entries>
+	<table class=entries>
+	<tr>
+		<th>任务</th>
+		<th colspan="2">管理</th>
+	</tr>
+
 	{% for entry in entries %}
-		<li>{{ entry.username }} 留言于( {{ entry.time }})
-		<li><span class="highlightme">{{ entry.text|safe }}</span>
+	<tr>
+		<td>{{ entry.title }}</td>
+		<td colspan="2" class=operation><form action = "{{ url_for('delete_entry') }}" method=post> <button type="submit" name="id" value={{entry.id}}>删除</button> </form>
+		<form action = "{{ url_for('done_entry') }}" method=post> <button type="submit" name="id" value={{entry.id}}>完成</button> </form></td>
+	</tr>
 	{% else %}
-		<li><em>还没有人来过...</em>
+	<tr>
+	<td></td>
+	<td></td>
+	</tr>
 	{% endfor %}
-	</ul>
+	</table>
+
+	<div>
+		total count :  {{ count,totalpage,thispage}}
+	</div>
+	{% if count!=0 %}
+	<span>
+	<a href="{{ url_for('show_list',index=1)}}"> &#60;&#60; </a>
+	{% if thispage==1 %}
+		<a href="{{ url_for('show_list',index=1)}}"> &#60; </a>
+	{% else %}
+		<a href="{{ url_for('show_list',index=thispage-1)}}"> &#60; </a>
+	{% endif %}
+	{% for n in range(totalpage) %}
+	{% if n+1==thispage %}
+	<span class=indicator>{{n+1}}</span>
+	{% else %}
+	<a href="{{ url_for('show_list',index=n+1)}}">{{ n + 1 }}</a>
+	{% endif %}
+	{% endfor %}
+	{% if thispage==totalpage %}
+		<a href="{{ url_for('show_list',index=totalpage)}}">&#62;</a>
+	{% else %}
+		<a href="{{ url_for('show_list',index=thispage+1)}}">&#62;</a>
+	{% endif %}
+    <a href="{{ url_for('show_list',index=totalpage)}}">  &#62;&#62; </a>
+	</span>
+	{% endif %}
+	<form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+	<div>
+		<input type=text name=title size=30 class=add-entry-content><input type=submit value='创建'>
+	</div>
+	</form>
 {% endblock %}

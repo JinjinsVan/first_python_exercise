@@ -1,11 +1,18 @@
 <!doctype html>
-<title>留言簿</title>
+<title>To-Do-List</title>
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style.css')}}">
 <div class=page>
-	<h1>留言簿</h1>
-	<h3>请尽情留言吧...</h3>
+	<h1>To-Do-List</h1>
 	{% for message in get_flashed_messages() %}
 		<div class=flash>{{ message }}</div>
 	{% endfor %}
+	{% if session.logged_in %}
+	<div align="rigth">{{ session.username }}<a href="{{ url_for('logout') }}">登出</a></div>
+	{% else %}
+	<a href="{{ url_for('login') }}">登录</a>
+	{% endif %}
+
+	</div>
+</form>
 	{% block body %}{% endblock %}
 </div>

@@ -1,6 +1,8 @@
 #coding=utf-8
 import os,uuid,hmac,base64
 import hashlib,random
+from wtforms import Form, BooleanField, StringField, PasswordField, validators
+from wtforms.validators import InputRequired
 
 def encrypt_password(psw,salt):
 	if salt == None:
@@ -16,5 +18,4 @@ def validate_password(psw,secret_psw):
 	return secret_psw == encrypt_password(psw,secret_psw[-8:])
 
 
-secret_psw = encrypt_password('secretpassword',None)
-print(validate_password('secretpassword',secret_psw))
+
